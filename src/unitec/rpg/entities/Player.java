@@ -1,15 +1,13 @@
 package unitec.rpg.entities;
 
-public class Player {
+public class Player extends BasicCharacter {
 
-    private int attack;
-    private int defense;
     private int experience;
     private int level;
     private int gold;
 
     public Player(String name) {
-        super();
+        super(name);
         this.attack = 15;
         this.defense = 10;
         this.experience = 0;
@@ -20,29 +18,17 @@ public class Player {
         this("Sunho");
     }
 
-    public void attack(Enemy enemy) {
-        int damage = this.attack - enemy.getDefense();
-        if (damage > 0) {
-            System.out.println(this.getName() + " ataca a " + enemy.getName() + " y le hace " + damage + " puntos de daño.");
-            enemy.takeDamage(damage);
-        } else {
-            System.out.println(this.getName() + " ataca a " + enemy.getName() + " pero no le hace daño.");
-        }
-    }
-
-    public void defend(Enemy enemy) {
-        int damage = enemy.getAttack() - this.defense;
-        this.takeDamage(damage);
-    }
-
-    private void takeDamage(int damage) {
-    }
-
     public void levelUp() {
-        
+        this.level++;
+        this.maxHP += 10;
+        this.hp = this.maxHP;
+        this.maxMP += 5;
+        this.mp = this.maxMP;
+        this.attack += 2;
+        this.defense += 1;
     }
 
-    public void gainExperience(int exp) {
+    public void gainExperience (int exp) {
         this.experience += exp;
         if (this.experience >= 100 * this.level) {
             levelUp();
@@ -93,16 +79,5 @@ public class Player {
 
     public void setGold(int gold) {
         this.gold = gold;
-    }
-
-    public String getName() {
-    }
-
-    public String getMp() {
-        return mp;
-    }
-
-    public void setMp(String mp) {
-        this.mp = mp;
     }
 }

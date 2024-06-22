@@ -1,8 +1,11 @@
 package unitec.rpg;
 
-public class main {
-    public static void main(String[] args){
+import unitec.rpg.ui.windows.Welcomewindow;
 
-        System.out.println("Hola, UNITEC.RPG!!!");
+public class main {
+
+    public static void main (String[] args) {
+
+        new Welcomewindow();
     }
 }
