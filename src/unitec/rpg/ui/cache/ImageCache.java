@@ -1,4 +1,4 @@
-package unitec.rpg.ui.cache;package.unitec.rpg.ui.cache;
+package unitec.rpg.ui.cache;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;
@@ -9,7 +9,6 @@ import java.util.Map;
  * Clase encargada de almacenar el caché de las imágenes que se cargan en la aplicación
  */
 public class ImageCache {
-
     /**
      * Mapa que almacena las imágenes en caché
      */
@@ -26,7 +25,7 @@ public class ImageCache {
         BufferedImage image;
         if (!cache.containsKey(imageName)) {
 
-            image = ImageLoader.loaderImage(imagePath);
+            image = ImageLoader.loadImage(imagePath);
             cache.put(imageName, image);
         } else {
             image = cache.get(imageName);
