@@ -7,7 +7,7 @@ public class BasicCharacterTest {
     public static void main (String[] args) {
 
         //Nuevo personaje básico
-        BasicCharacter character = new BasicCharacter("Liana");
+        BasicCharacter character = new BasicCharacter("Shooky");
 
         // Imprimir los atributos del personaje
         System.out.println("Nombre: " + character.getName());

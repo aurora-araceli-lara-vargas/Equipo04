@@ -14,7 +14,7 @@ public class Enemy extends BasicCharacter {
     }
 
     public Enemy() {
-        this("Shadow");
+        this("Ian");
     }
 
     public String dropLoot(Player player) {

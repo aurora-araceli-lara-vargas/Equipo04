@@ -8,10 +8,10 @@ public class BattleTest {
     public static void main(String[] args) {
 
         //Nuevo jugador
-        Player player = new Player("Liana");
+        Player player = new Player("Shooky");
 
         //Nuevo enemigo
-        Enemy enemy = new Enemy("Shadow");
+        Enemy enemy = new Enemy("Ian");
 
         //Atributos del jugador y del enemigo
         System.out.println("Jugador: " + player.getName());

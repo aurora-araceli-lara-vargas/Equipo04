@@ -1,47 +1,123 @@
 package unitec.rpg.entities;
 
-public class BasicCharacter {
+import unitec.rpg.entities.enums.Stats;
+
+import java.io.Serializable;
+import java.util.HashMap;
+
+public class BasicCharacter implements Serializable {
 
     protected String name;
-    protected int hp;
-    protected int maxHP;
-    protected int mp;
-    protected int maxMP;
-    protected int attack;
-    protected int defense;
-
+    protected HashMap<Stats, Integer> stats;
 
     public BasicCharacter(String name) {
         this.name = name;
-        this.hp = 50;
-        this.maxHP = 50;
-        this.mp = 20;
-        this.maxMP = 20;
+        this.stats = new HashMap<>();
+        this.stats.put(Stats.HP, 100);
+        this.stats.put(Stats.MAX_HP, 100);
+        this.stats.put(Stats.MP, 50);
+        this.stats.put(Stats.MAX_MP, 50);
+        this.stats.put(Stats.ATTACK, 10);
+        this.stats.put(Stats.DEFENSE, 5);
+        this.stats.put(Stats.SPEED, 5);
+        this.stats.put(Stats.LUCK, 5);
+        this.stats.put(Stats.ACCUARY, 5);
+        this.stats.put(Stats.EVASION, 5);
+        this.stats.put(Stats.CRITICAL_HIT_CHANCE, 95);
+        this.stats.put(Stats.CRITICAL_HIT_DAMAGE, 150);
     }
 
     public BasicCharacter() {
-        this("Sunho");
+        this("Cookie");
+    }
+
+    private void setStats(Stats stat, int value) {
+        this.stats.put(stat, value);
+    }
+
+    public void increaseStat(Stats stat, int value) {
+        this.stats.put(stat, this.stats.get(stat) + value);
+    }
+
+    public void decreaseStat(Stats stat, int value) {
+        this.stats.put(stat, this.stats.get(stat) - value);
+    }
+
+    public void heal(int amount) {
+        int hp = this.stats.get(Stats.HP) + amount;
+        if (hp > this.stats.get(Stats.MAX_HP)) {
+            hp = this.stats.get(Stats.MAX_HP);
+        }
+        this.stats.put(Stats.HP, hp);
+    }
+
+    public void restore(int amount) {
+        int mp = this.stats.get(Stats.MP) + amount;
+        if (mp > this.stats.get(Stats.MAX_HP)) {
+            mp = this.stats.get(Stats.MAX_MP);
+        }
+        this.stats.put(Stats.MP, mp);
+    }
+
+    public void recover() {
+        this.stats.put(Stats.HP, this.stats.get(Stats.MAX_HP));
+        this.stats.put(Stats.MP, this.stats.get(Stats.MAX_MP));
+    }
+
+    private boolean isCriticalHit(){
+
+        return Math.random() < this.getStatus(Stats.CRITICAL_HIT_CHANCE) / 100.0;
+    }
+
+    private boolean isHit(BasicCharacter character) {
+
+        return Math.random() < this.getStatus(Stats.ACCUARY) - character.getStatus(Stats.EVASION) / 100.0;
+    }
+
+    private boolean isEvaded(BasicCharacter character) {
+
+        return Math.random() > this.getStatus(Stats.EVASION) - character.getStatus(Stats.ACCUARY) / 100.0;
     }
 
     public String attack(BasicCharacter character) {
 
-        int damage = this.attack - character.getDefense();
-        String message;
+        String message = "";
+        int damage = this.getStatus(Stats.ATTACK);
+        if (!isHit(character)) {
+            message += String.format("%s ataca a %s pero falla.\n", this.getName(), character.getName());
+            damage = 0;
+        }
+        if (isEvaded(character)) {
+            message += String.format("%s ataca a %s pero esquivan el ataque.\n", this.getName(), character.getName());
+            damage = 0;
+        }
         if (damage > 0) {
-            message = String.format("%s ataca a %s y le hace %d puntos de daño.\n", this.getName(), character.getName(), damage);
+            if (isCriticalHit()) {
+                message += String.format("%s realiza un golpe crítico.\n", this.getName());
+                damage = (int) (damage * (this.getStatus(Stats.CRITICAL_HIT_DAMAGE) / 100.0));
+            }
+            message += String.format("%s ataca %s y le hace %d puntos de daño.\n", this.getName(), character.getName(),
+                    damage);
             message += character.takeDamage(damage);
-        } else {
-            message = String.format("%s ataca a %s pero no le hace daño.\n", this.getName(), character.getName());
+        } else if (!isEvaded(character) && isHit(character) && damage == 0) {
+            message += String.format("%s ataca a %s pero no le hace daño.\n", this.getName(), character.getName());
         }
         return message;
+    }
+
+    public void defend(BasicCharacter character) {
+
+        int damage = character.getStatus(Stats.ATTACK) - getStatus(Stats.DEFENSE);
+        this.takeDamage(damage);
     }
 
     public String  takeDamage(int damage) {
 
         String message;
-        this.hp -= damage;
+        int hp = this.stats.get(Stats.HP) - damage;
         message = String.format("%s recibe %d puntos de daño.\n", this.getName(), damage);
-        if (this.hp <= 0) {
+        stats.put(Stats.HP, hp);
+        if (hp <= 0) {
 
             message += String.format("%s ha muerto.\\n", this,getName());
         }
@@ -49,14 +125,8 @@ public class BasicCharacter {
     }
 
     public boolean isAlive() {
-        return this.hp > 0;
-    }
 
-    public void defend(int damage) {
-        this.hp -= damage;
-        if (this.hp < 0) {
-            this.hp = 0;
-        }
+        return stats.get(Stats.HP) > 0;
     }
 
     public String getName() {
@@ -67,55 +137,7 @@ public class BasicCharacter {
         this.name = name;
     }
 
-    //Getter and Setters
-
-    public int getHp() {
-        return hp;
-    }
-
-    public void setHp(int hp) {
-        this.hp = hp;
-    }
-
-    public int getMaxHP() {
-        return maxHP;
-    }
-
-    public void setMaxHP(int maxHP) {
-        this.maxHP = maxHP;
-    }
-
-    public int getMp() {
-        return mp;
-    }
-
-    public void setMp(int mp) {
-        this.mp = mp;
-    }
-
-    public int getMaxMP() {
-        return maxMP;
-    }
-
-    public void setMaxMP(int maxMP) {
-        this.maxMP = maxMP;
-    }
-
-    public int getDefense() {
-        return defense;
-    }
-
-    public void setDefense(int defense) {
-        this.defense = defense;
-    }
-
-    //Constructor
-
-    public BasicCharacter(String name, int hp, int maxHP, int mp, int maxMP) {
-        this.name = name;
-        this.hp = hp;
-        this.maxHP = maxHP;
-        this.mp = mp;
-        this.maxMP = maxMP;
+    public int getStatus(Stats stat) {
+        return this.stats.get(stat);
     }
 }

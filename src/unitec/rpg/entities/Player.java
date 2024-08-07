@@ -15,7 +15,7 @@ public class Player extends BasicCharacter {
     }
 
     public Player() {
-        this("Sunho");
+        this("Cookie");
     }
 
     public void levelUp() {
