@@ -1,13 +1,14 @@
 package unitec.rpg.entities.enemies.BadHorse;
 
-import annotation.RegularEnemy;
 import unitec.rpg.entities.Player;
 import unitec.rpg.entities.enemies.annotation.Enemy;
+import unitec.rpg.entities.enemies.annotation.RegularEnemy;
 import unitec.rpg.entities.enums.Stats;
 import unitec.rpg.ui.cache.ImageCache;
 
 import javax.swing.*;
 
+@RegularEnemy
 public class Horse extends Enemy {
 
     public Horse(Player player) {

@@ -51,10 +51,7 @@ public class AngryShadow extends Enemy {
     }
 
     protected String echoOfDarkness(Player player) {
-
-        int damage = (int) ((stats.get(Stats.ATTACK) * 2.00) - player.getStatus(Stats.DEFENSE));
-        player.takeDamage(damage);
-        return String.format("%s lanza un grito fantasmal a %s por %d puntos de daño."), name, player.getName(), damage);
+        return null;
     }
 
     protected String shadowyEmbrace(Player player) {
@@ -67,7 +64,7 @@ public class AngryShadow extends Enemy {
     @Override
     public ImageIcon getImage() {
 
-        ImageCache.addImage("AngryShadow", "img/enemies/Angry_Shadow.png")-,
+        ImageCache.addImage("AngryShadow", "img/enemies/Angry_Shadow.png");
         return ImageCache.getImageIcon("AngryShadow");
     }
 }
