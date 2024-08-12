@@ -1,7 +1,7 @@
 package unitec.rpg.test;
 
 import unitec.rpg.entities.Player;
-import unitec.rpg.entities.Enemy;
+import unitec.rpg.entities.enemies.annotation.Enemy;
 
 public class BattleTest {
 

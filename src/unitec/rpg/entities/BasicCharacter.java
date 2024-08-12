@@ -21,7 +21,7 @@ public class BasicCharacter implements Serializable {
         this.stats.put(Stats.DEFENSE, 5);
         this.stats.put(Stats.SPEED, 5);
         this.stats.put(Stats.LUCK, 5);
-        this.stats.put(Stats.ACCUARY, 5);
+        this.stats.put(Stats.ACCURACY, 5);
         this.stats.put(Stats.EVASION, 5);
         this.stats.put(Stats.CRITICAL_HIT_CHANCE, 95);
         this.stats.put(Stats.CRITICAL_HIT_DAMAGE, 150);
@@ -71,12 +71,12 @@ public class BasicCharacter implements Serializable {
 
     private boolean isHit(BasicCharacter character) {
 
-        return Math.random() < this.getStatus(Stats.ACCUARY) - character.getStatus(Stats.EVASION) / 100.0;
+        return Math.random() < this.getStatus(Stats.ACCURACY) - character.getStatus(Stats.EVASION) / 100.0;
     }
 
     private boolean isEvaded(BasicCharacter character) {
 
-        return Math.random() > this.getStatus(Stats.EVASION) - character.getStatus(Stats.ACCUARY) / 100.0;
+        return Math.random() > this.getStatus(Stats.EVASION) - character.getStatus(Stats.ACCURACY) / 100.0;
     }
 
     public String attack(BasicCharacter character) {
