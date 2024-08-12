@@ -7,7 +7,7 @@ import unitec.rpg.ui.cache.ImageCache;
 
 import javax.swing.*;
 
-@BossEnemy
+@Enemy
 public class AngryShadow extends Enemy {
 
     public AngryShadow(Player player) {
@@ -45,6 +45,9 @@ public class AngryShadow extends Enemy {
             message = shadowyEmbrace(player);
         }
         return message;
+    }
+
+    private String plainAttack(Player player) {
     }
 
     protected String echoOfDarkness(Player player) {
