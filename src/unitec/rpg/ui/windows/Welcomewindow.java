@@ -1,6 +1,6 @@
 package unitec.rpg.ui.windows;
 
-import unitec.rpg.entities.enemies.annotation.Enemy;
+import unitec.rpg.entities.enemies.Enemy;
 import unitec.rpg.entities.Player;
 
 import javax.swing.*;

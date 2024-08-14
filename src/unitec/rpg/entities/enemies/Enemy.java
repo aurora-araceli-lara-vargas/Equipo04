@@ -1,4 +1,4 @@
-package unitec.rpg.entities.enemies.annotation;
+package unitec.rpg.entities.enemies;
 
 import unitec.rpg.entities.BasicCharacter;
 import unitec.rpg.entities.Player;
@@ -6,7 +6,8 @@ import unitec.rpg.entities.enums.Stats;
 
 import javax.swing.*;
 
-public abstract class Enemy extends BasicCharacter {
+public abstract class Enemy
+        extends BasicCharacter {
 
     protected int experience;
     protected int gold;
@@ -27,11 +28,13 @@ public abstract class Enemy extends BasicCharacter {
     protected void setStats(Player player) {
 
         stats.put(Stats.HP, getAdjustedStat(Stats.HP, player));
+        stats.put(Stats.MAX_HP, getStatus(Stats.HP));
         stats.put(Stats.ATTACK, getAdjustedStat(Stats.ATTACK, player));
         stats.put(Stats.DEFENSE, getAdjustedStat(Stats.DEFENSE, player));
         stats.put(Stats.SPEED, getAdjustedStat(Stats.SPEED, player));
         stats.put(Stats.EVASION, getAdjustedStat(Stats.EVASION, player));
         stats.put(Stats.ACCURACY, getAdjustedStat(Stats.ACCURACY, player));
+        experience = (int) (experience * (player.getLevel() * adjustLevel));
     }
 
     public abstract String attack(Player player);
@@ -48,15 +51,14 @@ public abstract class Enemy extends BasicCharacter {
 
     public String gainExperience(Player player) {
 
-        return String.format("%s gana %d puntos de experiencia.", player.getName(), this.experience);
+        return player.gainExperience(this.experience);
     }
 
     public String gainGold(Player player) {
 
+        player.gainGold(this.gold);
         return String.format("%s gana %d monedas de oro.", player.getName(), this.gold);
     }
-
-    //Getters and Setters
 
     public int getExperience() {
         return experience;

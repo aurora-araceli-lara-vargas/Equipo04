@@ -7,7 +7,6 @@ import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import unitec.rpg.entities.Player;
 import unitec.rpg.entities.enemies.annotation.BossEnemy;
-import unitec.rpg.entities.enemies.annotation.Enemy;
 import unitec.rpg.entities.enemies.annotation.RegularEnemy;
 
 import java.util.ArrayList;

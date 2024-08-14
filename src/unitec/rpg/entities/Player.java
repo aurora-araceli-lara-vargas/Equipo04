@@ -1,38 +1,76 @@
 package unitec.rpg.entities;
 
-public class Player extends BasicCharacter {
+import unitec.rpg.entities.enums.Stats;
+import unitec.rpg.items.Inventory;
+
+import java.io.Serializable;
+
+public class Player extends BasicCharacter implements Serializable {
 
     private int experience;
     private int level;
     private int gold;
+    private final Inventory inventory;
 
     public Player(String name) {
+
         super(name);
-        this.attack = 15;
-        this.defense = 10;
+        this.stats.put(Stats.HP, 100);
+        this.stats.put(Stats.MAX_HP, 100);
+        this.stats.put(Stats.MP, 50);
+        this.stats.put(Stats.MAX_MP, 50);
+        this.stats.put(Stats.ATTACK, 10);
+        this.stats.put(Stats.DEFENSE, 5);
+        this.stats.put(Stats.SPEED, 5);
+        this.stats.put(Stats.LUCK, 5);
+        this.stats.put(Stats.ACCURACY, 5);
+        this.stats.put(Stats.EVASION, 5);
+        this.stats.put(Stats.CRITICAL_HIT_CHANCE, 5);
+        this.stats.put(Stats.CRITICAL_HIT_DAMAGE, 150);
+        this.gold = 0;
         this.experience = 0;
         this.level = 1;
+        this.inventory = new Inventory();
     }
 
     public Player() {
         this("Cookie");
     }
 
-    public void levelUp() {
-        this.level++;
-        this.maxHP += 10;
-        this.hp = this.maxHP;
-        this.maxMP += 5;
-        this.mp = this.maxMP;
-        this.attack += 2;
-        this.defense += 1;
+    public int getExperienceToNextLevel() {
+        return 100 * this.level;
     }
 
-    public void gainExperience (int exp) {
+    public String tryToFlee() {
+
+        return Math.random() < 0.5 ? "Has huido con éxito.\n" : "No has podido huir.\n";
+    }
+
+    public String  levelUp() {
+
+        this.level++;
+        this.increaseStat(Stats.MAX_HP, 10);
+        this.increaseStat(Stats.MAX_MP, 5);
+        this.increaseStat(Stats.ATTACK, 2);
+        this.increaseStat(Stats.DEFENSE, 1);
+        this.increaseStat(Stats.SPEED, 1);
+        this.increaseStat(Stats.LUCK, 1);
+        this.increaseStat(Stats.ACCURACY, 1);
+        this.increaseStat(Stats.EVASION, 1);
+        this.increaseStat(Stats.CRITICAL_HIT_CHANCE, 1);
+        this.experience = 0;
+        recover();
+        return String.format("\n%s ha subido al nivel %d.", this.name, this.level);
+    }
+
+    public String gainExperience (int exp) {
+
+        String message = String.format("%s gana %d puntos de experiencia.", this.name, exp);
         this.experience += exp;
         if (this.experience >= 100 * this.level) {
-            levelUp();
+            message += levelUp();
         }
+        return message;
     }
 
     public void gainGold(int gold) {
@@ -40,22 +78,6 @@ public class Player extends BasicCharacter {
     }
 
     // Getters and Setters
-
-    public int getAttack() {
-        return attack;
-    }
-
-    public void setAttack(int attack) {
-        this.attack = attack;
-    }
-
-    public int getDefense() {
-        return defense;
-    }
-
-    public void setDefense(int defense) {
-        this.defense = defense;
-    }
 
     public int getExperience() {
         return experience;
@@ -79,5 +101,9 @@ public class Player extends BasicCharacter {
 
     public void setGold(int gold) {
         this.gold = gold;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 }

@@ -1,7 +1,7 @@
 package unitec.rpg.entities.enemies.BadHorse;
 
 import unitec.rpg.entities.Player;
-import unitec.rpg.entities.enemies.annotation.Enemy;
+import unitec.rpg.entities.enemies.Enemy;
 import unitec.rpg.entities.enemies.annotation.RegularEnemy;
 import unitec.rpg.entities.enums.Stats;
 import unitec.rpg.ui.cache.ImageCache;
@@ -16,14 +16,15 @@ public class Horse extends Enemy {
         super(player);
     }
 
+    @Override
     protected void initStats() {
 
         this.name = "BadHorse";
         this.experience = 10;
         this.gold = 5;
         this.maxlevel = 10;
-        this.stats.put(Stats.HP, 10);
-        this.stats.put(Stats.ATTACK, 5);
+        this.stats.put(Stats.HP, 11);
+        this.stats.put(Stats.ATTACK, 6);
         this.stats.put(Stats.DEFENSE, 5);
         this.stats.put(Stats.SPEED, 5);
         this.stats.put(Stats.EVASION, 5);
@@ -66,10 +67,11 @@ public class Horse extends Enemy {
     protected String plainAttack(Player player) {
 
         player.takeDamage(getStatus(Stats.ATTACK) - player.getStatus(Stats.DEFENSE));
-        return String.format("%s ataca a %s.", this.getName(), player.getName());
+        return String.format("%s ataca a %s, con %d de daño.\n", this.getName(), player.getName(),
+                getStatus(Stats.ATTACK) - player.getStatus(Stats.DEFENSE));
     }
 
-    protected String wildKick() {
+    protected String heal() {
 
         increaseStat(Stats.HP, 2);
         return String.format("%s se cura.", this.getName());

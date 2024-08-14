@@ -1,12 +1,14 @@
 package unitec.rpg.entities.enemies.AngryBunny;
 
-import unitec.rpg.entities.enemies.annotation.Enemy;
+import unitec.rpg.entities.enemies.Enemy;
 import unitec.rpg.entities.Player;
+import unitec.rpg.entities.enemies.annotation.RegularEnemy;
 import unitec.rpg.entities.enums.Stats;
 import unitec.rpg.ui.cache.ImageCache;
 
 import javax.swing.*;
 
+@RegularEnemy
 public class AngryBunny extends Enemy {
 
     public AngryBunny(Player player) {
@@ -75,7 +77,8 @@ public class AngryBunny extends Enemy {
 
     protected String flee(Player player) {
 
-        return String.format("%s huye", name);
+        stats.put(Stats.HP, 0);
+        return String.format("%s huye.\n", name);
     }
 
     protected String stealGold(Player player) {
@@ -83,8 +86,8 @@ public class AngryBunny extends Enemy {
         int goldStolen = Math.max((player.getGold() - 5), 0);
         player.setGold(player.getGold() - goldStolen);
         gold += goldStolen;
-        return goldStolen == 0 ? String.format("%s intenta robar a %s, pero no tiene oro.", name, player.getName()) :
-                String.format("%s roba %d monedad de oro a %s.", name, goldStolen, player.getName());
+        return goldStolen == 0 ? String.format("%s intenta robar a %s, pero no tiene oro.\n", name, player.getName()) :
+                String.format("%s roba %d monedas de oro a %s.\n", name, goldStolen, player.getName());
     }
 
     /**
